@@ -1,6 +1,6 @@
 # text_selection_controls
 
-This package allows you to create custom text selection controls and use them in the SelectableText widget or in the TextForm or TextFormField widgets.
+This package allows you to create custom text selection controls and use them in the SelectableText widget or in the TextForm or TextFormField widgets. You can style the texts and the icons to match the theme of your app.
 
 
 ## Screenshots
