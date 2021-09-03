@@ -31,10 +31,7 @@ class FlutterSelectionControls extends MaterialTextSelectionControls {
   /// The ToolBarItems takes a widget as an argument and it will be shown on the tool bar when the text is selected
   ///
   ///
-  FlutterSelectionControls(
-      {required this.toolBarItems,
-      this.horizontalPadding = 10,
-      this.verticalPadding = 10});
+  FlutterSelectionControls({required this.toolBarItems, this.horizontalPadding = 16, this.verticalPadding = 10}) : assert(toolBarItems.length > 0);
 
   final List<ToolBarItem> toolBarItems;
 
@@ -94,10 +91,7 @@ class FlutterSelectionControls extends MaterialTextSelectionControls {
     final TextEditingValue value = delegate.textEditingValue;
 
     /// This is the highlighted text
-    String highlighted =
-        value.text.substring(value.selection.start, value.selection.end);
-
-    //TODO REMOVE THIS
+    String highlighted = value.text.substring(value.selection.start, value.selection.end);
     delegate.userUpdateTextEditingValue(
       TextEditingValue(
         text: value.text,
@@ -106,8 +100,7 @@ class FlutterSelectionControls extends MaterialTextSelectionControls {
       SelectionChangedCause.toolBar,
     );
     delegate.hideToolbar();
-    return item.onItemPressed!(
-        highlighted, value.selection.start, value.selection.end);
+    return item.onItemPressed!(highlighted, value.selection.start, value.selection.end);
   }
 
   /// Builder for material-style copy/paste text selection toolbar.
@@ -124,20 +117,13 @@ class FlutterSelectionControls extends MaterialTextSelectionControls {
   ) {
     final TextSelectionPoint startTextSelectionPoint = endpoints[0];
 
-    final TextSelectionPoint endTextSelectionPoint =
-        endpoints.length > 1 ? endpoints[1] : endpoints[0];
+    final TextSelectionPoint endTextSelectionPoint = endpoints.length > 1 ? endpoints[1] : endpoints[0];
 
-    final Offset anchorAbove = Offset(
-        globalEditableRegion.left + (selectionMidpoint ?? Offset.zero).dx,
-        globalEditableRegion.top +
-            startTextSelectionPoint.point.dy -
-            textLineHeight -
-            _kToolbarContentDistance);
+    final Offset anchorAbove = Offset(globalEditableRegion.left + (selectionMidpoint ?? Offset.zero).dx,
+        globalEditableRegion.top + startTextSelectionPoint.point.dy - textLineHeight - _kToolbarContentDistance);
     final Offset anchorBelow = Offset(
       globalEditableRegion.left + (selectionMidpoint ?? Offset.zero).dx,
-      globalEditableRegion.top +
-          endTextSelectionPoint.point.dy +
-          _kToolbarContentDistanceBelow,
+      globalEditableRegion.top + endTextSelectionPoint.point.dy + _kToolbarContentDistanceBelow,
     );
 
     return _SelectionToolBar(
@@ -147,8 +133,7 @@ class FlutterSelectionControls extends MaterialTextSelectionControls {
         toolBarItems: toolBarItems,
         horizontalPadding: horizontalPadding,
         verticalPadding: verticalPadding,
-        onItemSelected: (ToolBarItem item) => _onItemSelected(
-            item: item, delegate: delegate, clipboardStatus: clipboardStatus));
+        onItemSelected: (ToolBarItem item) => _onItemSelected(item: item, delegate: delegate, clipboardStatus: clipboardStatus));
   }
 }
 
@@ -242,24 +227,27 @@ class __SelectionToolBarState extends State<_SelectionToolBar> {
           return Card(child: child);
         },
         children: widget.toolBarItems
-            .map((item) => itemButton(
-                item: item,
-                horizontalPadding: widget.horizontalPadding,
-                verticalPadding: widget.verticalPadding))
+            .map((item) => itemButton(item: item, horizontalPadding: widget.horizontalPadding, verticalPadding: widget.verticalPadding))
             .toList());
   }
 
-  MaterialButton itemButton(
-      {required ToolBarItem item,
-      required double horizontalPadding,
-      required double verticalPadding}) {
+  Widget itemButton({required ToolBarItem item, required double horizontalPadding, required double verticalPadding}) {
+    return InkWell(
+      onTap: () => widget.onItemSelected(item),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding),
+        child: item.item,
+      ),
+    );
     return MaterialButton(
       color: Colors.transparent,
       onPressed: () => widget.onItemSelected(item),
       elevation: 0,
-      padding: EdgeInsets.symmetric(
-          vertical: verticalPadding, horizontal: horizontalPadding),
-      child: item.item,
+      padding: EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding),
+        child: item.item,
+      ),
     );
   }
 }
@@ -269,16 +257,13 @@ class __SelectionToolBarState extends State<_SelectionToolBar> {
 /// This class also gives you an option to choose between...
 /// ... flutter text selection controls[copy, paste, cut, select all] or custom controls
 class ToolBarItem {
-  ToolBarItem({required this.item, this.onItemPressed, this.itemControl})
-      : assert(
-            onItemPressed == null ? itemControl != null : itemControl == null);
+  ToolBarItem({required this.item, this.onItemPressed, this.itemControl}) : assert(onItemPressed == null ? itemControl != null : itemControl == null);
 
   /// The widget which will be shown on the text selection tool bar when a text is highlighted
   final Widget item;
 
   /// This gives access the highlighted text, the start index and the end index of the highlighted text
-  final Function(String highlightedText, int startIndex, int endIndex)?
-      onItemPressed;
+  final Function(String highlightedText, int startIndex, int endIndex)? onItemPressed;
 
   /// This gives you the option to use flutter text selection controls on your custom widget
   /// For instance, instead of having the text [Copy] on the tool bar,...
