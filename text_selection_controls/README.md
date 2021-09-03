@@ -5,7 +5,10 @@ This package allows you to create custom text selection controls and use them in
 
 ## Screenshots
 
-#TODO ADD SCREENSHOTS
+![Text selection tool bar with icon buttons](../screenshots/screenshots/screenshots/android-screenshots-icons.png)
+
+![Text selection tool bar with icon buttons](../screenshots/screenshots/screenshots/iPhone-11-2021-09-03-icons.png)
+
 
 ## Installation
 
