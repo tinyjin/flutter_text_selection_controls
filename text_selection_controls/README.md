@@ -7,7 +7,7 @@ This package allows you to create custom text selection controls and use them in
 
 ![Text selection tool bar with icon buttons](https://github.com/moneyeSir/flutter_text_selection_controls/blob/master/screenshots/android-screenshots-icons.png)
 
-![Text selection tool bar with icon buttons](https://github.com/moneyeSir/flutter_text_selection_controls/blob/master/screenshots/iPhone-11-2021-09-03-icons.png)
+![Text selection tool bar with extra text buttons](https://github.com/moneyeSir/flutter_text_selection_controls/blob/master/screenshots/iPhone-11-2021-09-03-extra-texts.png)
 
 
 ## Installation
