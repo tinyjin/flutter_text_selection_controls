@@ -2,7 +2,9 @@ name: text_selection_controls
 description: Create a custom text selection controls on top of the current copy, cut, paste and select all options to use them in your SelectableText or TextField widgets. 
 version: 0.0.1
 author: Sir Moneye <moneyesir@gmail.com>
-homepage: https://github.com/moneyeSir/flutter_text_selection_controls.git
+homepage: https://github.com/moneyeSir/flutter_text_selection_controls/tree/master/text_selection_controls
+repository: https://github.com/moneyeSir/flutter_text_selection_controls
+issue_tracker: https://github.com/moneyeSir/flutter_text_selection_controls/issues
 
 environment:
   sdk: ">=2.12.0 <3.0.0"

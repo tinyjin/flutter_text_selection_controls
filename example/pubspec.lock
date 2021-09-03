@@ -138,7 +138,7 @@ packages:
   text_selection_controls:
     dependency: "direct main"
     description:
-      path: ".."
+      path: "../text_selection_controls"
       relative: true
     source: path
     version: "0.0.1"

@@ -2,6 +2,8 @@
 
 This package allows you to create custom text selection controls and use them in the SelectableText widget or in the TextForm or TextFormField widgets.
 
+
+
 ## Installation
 
 In your flutter project add the dependency:
@@ -107,4 +109,4 @@ class CustomControls extends StatelessWidget {
 
 ## Windows, Linux and MacOS platforms + Web
 
-The ```text_selection_controls:``` package is deisgned for android and iOS applications but also note that it is still safe to use with these platforms even though the text selection tool bar does not show when a text is highlighted. The code will not break when used in these platforms, that's  if you are creating a hybrid application target all both mobile, web and desktop devices.
+The ```text_selection_controls:``` package is deisgned for android and iOS applications but also note that it is still safe to use with these platforms even though the text selection tool bar does not show when a text is highlighted.
