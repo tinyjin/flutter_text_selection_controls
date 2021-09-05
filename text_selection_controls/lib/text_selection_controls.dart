@@ -31,7 +31,9 @@ class FlutterSelectionControls extends MaterialTextSelectionControls {
   /// The ToolBarItems takes a widget as an argument and it will be shown on the tool bar when the text is selected
   ///
   ///
-  FlutterSelectionControls({required this.toolBarItems, this.horizontalPadding = 16, this.verticalPadding = 10}) : assert(toolBarItems.length > 0);
+  FlutterSelectionControls(
+      {required this.toolBarItems, this.horizontalPadding = 16, this.verticalPadding = 10})
+      : assert(toolBarItems.length > 0);
 
   final List<ToolBarItem> toolBarItems;
 
@@ -117,10 +119,15 @@ class FlutterSelectionControls extends MaterialTextSelectionControls {
   ) {
     final TextSelectionPoint startTextSelectionPoint = endpoints[0];
 
-    final TextSelectionPoint endTextSelectionPoint = endpoints.length > 1 ? endpoints[1] : endpoints[0];
+    final TextSelectionPoint endTextSelectionPoint =
+        endpoints.length > 1 ? endpoints[1] : endpoints[0];
 
-    final Offset anchorAbove = Offset(globalEditableRegion.left + (selectionMidpoint ?? Offset.zero).dx,
-        globalEditableRegion.top + startTextSelectionPoint.point.dy - textLineHeight - _kToolbarContentDistance);
+    final Offset anchorAbove = Offset(
+        globalEditableRegion.left + (selectionMidpoint ?? Offset.zero).dx,
+        globalEditableRegion.top +
+            startTextSelectionPoint.point.dy -
+            textLineHeight -
+            _kToolbarContentDistance);
     final Offset anchorBelow = Offset(
       globalEditableRegion.left + (selectionMidpoint ?? Offset.zero).dx,
       globalEditableRegion.top + endTextSelectionPoint.point.dy + _kToolbarContentDistanceBelow,
@@ -133,7 +140,12 @@ class FlutterSelectionControls extends MaterialTextSelectionControls {
         toolBarItems: toolBarItems,
         horizontalPadding: horizontalPadding,
         verticalPadding: verticalPadding,
-        onItemSelected: (ToolBarItem item) => _onItemSelected(item: item, delegate: delegate, clipboardStatus: clipboardStatus));
+        canCopy: canCopy(delegate),
+        canCut: canCut(delegate),
+        canPaste: canPaste(delegate),
+        canSelectAll: canSelectAll(delegate),
+        onItemSelected: (ToolBarItem item) =>
+            _onItemSelected(item: item, delegate: delegate, clipboardStatus: clipboardStatus));
   }
 }
 
@@ -146,7 +158,11 @@ class _SelectionToolBar extends StatefulWidget {
       required this.toolBarItems,
       required this.onItemSelected,
       required this.horizontalPadding,
-      required this.verticalPadding})
+      required this.verticalPadding,
+      required this.canCopy,
+      required this.canCut,
+      required this.canPaste,
+      required this.canSelectAll})
       : super(key: key);
 
   /// The focal point above which the toolbar attempts to position itself.
@@ -169,6 +185,18 @@ class _SelectionToolBar extends StatefulWidget {
 
   /// This controls the amount of vertical space between each tool bar item and the text selection tool bar
   final double verticalPadding;
+
+  /// Check if the highlighted text can be copied
+  final bool canCopy;
+
+  /// Check if the highlighted text can be cut
+  final bool canCut;
+
+  /// Check if paste command can be executed
+  final bool canPaste;
+
+  /// Check if select all command can be executed
+  final bool canSelectAll;
 
   @override
   __SelectionToolBarState createState() => __SelectionToolBarState();
@@ -226,24 +254,28 @@ class __SelectionToolBarState extends State<_SelectionToolBar> {
         toolbarBuilder: (BuildContext context, Widget child) {
           return Card(child: child);
         },
-        children: widget.toolBarItems
-            .map((item) => itemButton(item: item, horizontalPadding: widget.horizontalPadding, verticalPadding: widget.verticalPadding))
-            .toList());
+        children: widget.toolBarItems.map((item) {
+          if (item.itemControl != null) {
+            if (item.itemControl == ToolBarItemControl.copy && !widget.canCopy) return SizedBox();
+            if (item.itemControl == ToolBarItemControl.cut && !widget.canCut) return SizedBox();
+            if (item.itemControl == ToolBarItemControl.paste && !widget.canPaste) return SizedBox();
+            if (item.itemControl == ToolBarItemControl.selectAll && !widget.canSelectAll)
+              return SizedBox();
+          }
+
+          return itemButton(
+              item: item,
+              horizontalPadding: widget.horizontalPadding,
+              verticalPadding: widget.verticalPadding);
+        }).toList());
   }
 
-  Widget itemButton({required ToolBarItem item, required double horizontalPadding, required double verticalPadding}) {
+  Widget itemButton(
+      {required ToolBarItem item,
+      required double horizontalPadding,
+      required double verticalPadding}) {
     return InkWell(
       onTap: () => widget.onItemSelected(item),
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding),
-        child: item.item,
-      ),
-    );
-    return MaterialButton(
-      color: Colors.transparent,
-      onPressed: () => widget.onItemSelected(item),
-      elevation: 0,
-      padding: EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding),
         child: item.item,
@@ -257,7 +289,8 @@ class __SelectionToolBarState extends State<_SelectionToolBar> {
 /// This class also gives you an option to choose between...
 /// ... flutter text selection controls[copy, paste, cut, select all] or custom controls
 class ToolBarItem {
-  ToolBarItem({required this.item, this.onItemPressed, this.itemControl}) : assert(onItemPressed == null ? itemControl != null : itemControl == null);
+  ToolBarItem({required this.item, this.onItemPressed, this.itemControl})
+      : assert(onItemPressed == null ? itemControl != null : itemControl == null);
 
   /// The widget which will be shown on the text selection tool bar when a text is highlighted
   final Widget item;
