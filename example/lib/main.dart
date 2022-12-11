@@ -111,6 +111,27 @@ class _ReadingAppState extends State<ReadingApp> {
                               ),
                               onItemPressed: (String highlightedText, int startIndex, int endIndex) => {} // TODO:
                               ),
+                          ToolBarItem(
+                              item: Text(
+                                'Italic',
+                                style: theme.textTheme.bodyText1,
+                              ),
+                              onItemPressed: (String highlightedText, int startIndex, int endIndex) => {} // TODO:
+                              ),
+                          ToolBarItem(
+                              item: Text(
+                                'Strikethrough',
+                                style: theme.textTheme.bodyText1,
+                              ),
+                              onItemPressed: (String highlightedText, int startIndex, int endIndex) => {} // TODO:
+                              ),
+                          ToolBarItem(
+                              item: Text(
+                                'Share',
+                                style: theme.textTheme.bodyText1,
+                              ),
+                              onItemPressed: (String highlightedText, int startIndex, int endIndex) => {} // TODO:
+                              ),
                         ]),
                         decoration: InputDecoration(
                           hintText: 'Search',

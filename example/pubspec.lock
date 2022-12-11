@@ -138,10 +138,10 @@ packages:
   text_selection_controls:
     dependency: "direct main"
     description:
-      path: "../text_selection_controls"
+      path: ".."
       relative: true
     source: path
-    version: "0.0.1"
+    version: "0.0.2"
   typed_data:
     dependency: transitive
     description:

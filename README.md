@@ -5,10 +5,9 @@ This package allows you to create custom text selection controls and use them in
 
 ## Screenshots
 
-
 <p>
-	<img src="screenshots/android-screenshots-icons.png" width="250" height="443"  />
-	<img src="screenshots/iPhone-11-2021-09-03-extra-texts.png" width="250" height="443" />
+	<img src="../screenshots/android-screenshots-icons.png" width="250" height="443"  />
+	<img src="../screenshots/iPhone-11-2021-09-03-extra-texts.png" width="250" height="443" />
 </p>
 
 
